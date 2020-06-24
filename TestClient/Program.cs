@@ -20,12 +20,16 @@ namespace TestConnector.TestClient
             Console.ReadLine();
         }
 
+        /// <summary>
+        /// Attempt to connect to NATS server. Repeat on failure
+        /// </summary>
         private static async Task TryStartRepeat()
         {
             ICommunicator comms;
 
             try
             {
+                // Swap out for actual NATS endpoint
                 comms = new Communicator("192.168.0.119:7002", Console.WriteLine);
             }
             catch
@@ -36,28 +40,54 @@ namespace TestConnector.TestClient
                 return;
             }
 
+            // Subscribe to incoming async events
             comms.Subscribe(Communicator.FROM_SERVER_CHANNEL, (Message msg) =>
             {
                 Console.WriteLine(JsonConvert.SerializeObject(msg));
             });
 
+            // Run test script
+            await Test(comms);
 
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadLine();
+
+            // Stop Revit addin
+            comms.Publish(Communicator.TO_SERVER_CHANNEL, new Message { Type = "EXIT" });
+        }
+
+        /// <summary>
+        /// Run test script
+        /// </summary>
+        private static async Task Test(ICommunicator comms)
+        {
             Console.WriteLine("Getting all");
 
+            // Issue command to get all elements of a given type
+            // E.e. <Autodesk.Revit.DB.Material>
             Message response = await comms.Request(Communicator.TO_SERVER_CHANNEL, new Message
             {
                 Type = "GET_ALL",
                 Data = JObject.FromObject(new
                 {
-                    Type = "Autodesk.Revit.DB.Wall"
+                    Type = "Autodesk.Revit.DB.Material"
                 })
             });
 
             Console.WriteLine(JsonConvert.SerializeObject(response));
 
-            List<JObject> dataSet = JArray.FromObject(response.Data).Select(x => (JObject)x).ToList();
+            // Parse response to DTO
+            List<Material> dataSet = JArray.FromObject(response.Data).
+                                            Select(x => (JObject)x).
+                                            Select(x => x.ToObject<Material>()).
+                                            ToList();
 
-            Material mat = dataSet.FirstOrDefault(d => d["Id"].ToString() == "1389804").ToObject<Material>();
+            // Select a specific item
+            Material mat = dataSet.FirstOrDefault(
+                d => true // e.g. d["Id"].ToString() == "1389804"
+            );
+
+            // Update model
             mat.Color = new Color
             {
                 Red = 0xff,
@@ -68,17 +98,13 @@ namespace TestConnector.TestClient
             Console.WriteLine("Setting");
             Console.WriteLine(JsonConvert.SerializeObject(mat));
 
+            // Issue command to update a given element
             Message response2 = await comms.Request(Communicator.TO_SERVER_CHANNEL, new Message
             {
                 Type = "SET",
                 Data = JObject.FromObject(mat)
             });
             Console.WriteLine(JsonConvert.SerializeObject(response2));
-
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadLine();
-
-            comms.Publish(Communicator.TO_SERVER_CHANNEL, new Message { Type = "EXIT" });
         }
     }
 }
