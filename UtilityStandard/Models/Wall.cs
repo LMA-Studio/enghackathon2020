@@ -13,5 +13,6 @@ namespace Utility.Models
         public XYZ Orientation { get; set; }
         public XYZ Endpoint0 { get; set; }
         public XYZ Endpoint1 { get; set; }
+        public List<Face> Faces { get; set; }
     }
 }

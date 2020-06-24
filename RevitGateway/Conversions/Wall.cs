@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Autodesk.Revit.DB;
 using Newtonsoft.Json.Linq;
+using RevitGateway.Helpers;
 using Utility.Models;
 
 namespace RevitGateway.Conversions
@@ -25,19 +26,17 @@ namespace RevitGateway.Conversions
             Autodesk.Revit.DB.XYZ origin = line.Tessellate().First();
             Autodesk.Revit.DB.XYZ endpoint = line.Tessellate().Last(); /// origin + line.Direction * line.Length;
 
+            List<Utility.Models.Face> wallFaces = new List<Utility.Models.Face>();
+
             string materialId = null;
             GeometryElement defaultGeometry = source.get_Geometry(new Options());
             if (defaultGeometry != null)
             {
                 Solid solidGeometry = defaultGeometry.FirstOrDefault() as Solid;
 
-                if(solidGeometry != null)
+                if (solidGeometry != null)
                 {
-                    IEnumerable<PlanarFace> faces = solidGeometry.Faces.Cast<PlanarFace>();
-                    PlanarFace topFace = faces.Where(
-                        (f, i) => i == 1
-                    ).FirstOrDefault() ?? faces.FirstOrDefault();
-                    materialId = topFace?.MaterialElementId?.ToString();
+                    wallFaces = GeometryConversion.ConvertToDTO(solidGeometry, out materialId);
                 }
             }
             
@@ -64,7 +63,8 @@ namespace RevitGateway.Conversions
                     X = endpoint.X,
                     Y = endpoint.Y,
                     Z = bb.Max.Z,
-                }
+                },
+                Faces = wallFaces
             };
 
             return JObject.FromObject(dest);

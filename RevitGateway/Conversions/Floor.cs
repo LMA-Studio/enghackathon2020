@@ -16,23 +16,25 @@ namespace RevitGateway.Conversions
             GeometryElement defaultGeometry = source.get_Geometry(new Options());
             Solid solidGeometry = defaultGeometry.FirstOrDefault() as Solid;
 
-            IEnumerable<PlanarFace> faces = solidGeometry.Faces.Cast<PlanarFace>();
-            PlanarFace topFace = faces.FirstOrDefault(
-                f => f.FaceNormal.X == 0 && f.FaceNormal.Y == 0 && f.FaceNormal.Z == 1
-            );
-            IEnumerable<Autodesk.Revit.DB.XYZ> vertexes = topFace.Triangulate().Vertices;
+            if (solidGeometry == null)
+            {
+                return JObject.FromObject(new
+                {
+                    ERROR = 1,
+                    Msg = $"Geometry does not exist for {source.Id}"
+                });
+            }
+
+            string materialId;
+            List<Utility.Models.Face> wallFaces = Helpers.GeometryConversion.ConvertToDTO(solidGeometry, out materialId);
 
             Utility.Models.Floor dest = new Utility.Models.Floor
             {
                 Id = source.Id.ToString(),
                 Name = source.Name,
-                MaterialId = topFace.MaterialElementId.ToString(),
-                FaceLoop = vertexes.Select(v => new Utility.Models.XYZ
-                {
-                    X = v.X,
-                    Y = v.Y,
-                    Z = v.Z,
-                })
+                MaterialId = materialId,
+                Faces = wallFaces
+
             };
 
             return JObject.FromObject(dest);

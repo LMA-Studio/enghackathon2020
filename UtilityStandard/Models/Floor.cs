@@ -9,6 +9,6 @@ namespace Utility.Models
     public class Floor: Element
     {
         public string MaterialId { get; set; }
-        public IEnumerable<XYZ> FaceLoop { get; set; }
+        public List<Face> Faces { get; set; }
     }
 }
