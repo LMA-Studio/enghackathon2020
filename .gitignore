@@ -100,7 +100,7 @@ bld/
 [Ll]og/
 [Ll]ogs/
 [Ll]ibrary/
-[Tt]emp/
+Assets/Oculus/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
