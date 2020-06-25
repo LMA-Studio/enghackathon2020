@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29102.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamVR.TestClient", "StreamVR.TestClient\StreamVR.TestClient.csproj", "{FB2FDB90-5116-4A63-9B78-B08D520EEE3B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamVR.Revit", "StreamVR.Revit\StreamVR.Revit.csproj", "{A749CD6A-6503-41D4-A15D-F58CF042EC30}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StreamVR.Common", "StreamVR.Common\StreamVR.Common.csproj", "{80AF8C5A-F497-4BDB-8083-144A4FC2982A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "StreamVR.Unity\Assembly-CSharp.csproj", "{1418FA86-491C-672F-3D2E-9FAF88DD051B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FB2FDB90-5116-4A63-9B78-B08D520EEE3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB2FDB90-5116-4A63-9B78-B08D520EEE3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB2FDB90-5116-4A63-9B78-B08D520EEE3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB2FDB90-5116-4A63-9B78-B08D520EEE3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A749CD6A-6503-41D4-A15D-F58CF042EC30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A749CD6A-6503-41D4-A15D-F58CF042EC30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A749CD6A-6503-41D4-A15D-F58CF042EC30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A749CD6A-6503-41D4-A15D-F58CF042EC30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80AF8C5A-F497-4BDB-8083-144A4FC2982A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80AF8C5A-F497-4BDB-8083-144A4FC2982A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80AF8C5A-F497-4BDB-8083-144A4FC2982A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80AF8C5A-F497-4BDB-8083-144A4FC2982A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1418FA86-491C-672F-3D2E-9FAF88DD051B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1418FA86-491C-672F-3D2E-9FAF88DD051B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1418FA86-491C-672F-3D2E-9FAF88DD051B}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{1418FA86-491C-672F-3D2E-9FAF88DD051B}.Release|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BDB0FFE2-C140-477E-971C-1C35756B04A8}
+	EndGlobalSection
+EndGlobal

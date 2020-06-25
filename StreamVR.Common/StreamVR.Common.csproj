@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>LMAStudio.StreamVR.Common</PackageId>
+    <Company>LMA Studio</Company>
+    <Product>LMAStudio.StreamVR</Product>
+    <Version>0.1.0</Version>
+    <Copyright>Copyright © 2020</Copyright>
+    <PackageLicenseFile></PackageLicenseFile>
+    <AssemblyName>LMAStudio.StreamVR.Common</AssemblyName>
+    <RootNamespace>LMAStudio.StreamVR.Common</RootNamespace>
+    <Description>Common code to allow for the communication between the Revit Addin and an external StreamVR enabled application.</Description>
+    <PackageProjectUrl>https://github.com/LMA-Studio/enghackathon2020</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/LMA-Studio/enghackathon2020</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageLicenseExpression>GPLv3</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="NATS.Client">
+      <HintPath>.\Libs\NATS.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\StreamVR.Unity\Assets\JsonDotNet\Assemblies\Standalone\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

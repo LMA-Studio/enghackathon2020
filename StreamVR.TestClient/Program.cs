@@ -49,6 +49,7 @@ namespace LMAStudio.StreamVR.TestClient
             {
                 // Swap out for actual NATS endpoint
                 comms = new Communicator("192.168.0.119:7002", Console.WriteLine);
+                comms.Connect();
             }
             catch
             {
@@ -59,16 +60,16 @@ namespace LMAStudio.StreamVR.TestClient
             }
 
             // Subscribe to incoming async events
-            comms.Subscribe(Communicator.FROM_SERVER_CHANNEL, (Message msg) =>
-            {
-                Console.WriteLine(JsonConvert.SerializeObject(msg));
-            });
+            //comms.Subscribe(Communicator.FROM_SERVER_CHANNEL, (Message msg) =>
+            //{
+            //    Console.WriteLine(JsonConvert.SerializeObject(msg));
+            //});
 
-            // Run test script
-            await Test(comms);
+            //// Run test script
+            //await Test(comms);
 
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadLine();
+            //Console.WriteLine("Press any key to continue...");
+            //Console.ReadLine();
 
             // Stop Revit addin
             comms.Publish(Communicator.TO_SERVER_CHANNEL, new Message { Type = "EXIT" });

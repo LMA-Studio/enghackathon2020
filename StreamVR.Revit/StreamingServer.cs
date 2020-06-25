@@ -72,6 +72,7 @@ namespace LMAStudio.StreamVR.Revit
         {
             using (var cc = new Communicator(natsUrl, this.Debug))
             {
+                cc.Connect();
                 cc.Subscribe(Communicator.TO_SERVER_CHANNEL, (Message msg) =>
                 {
                     msgQueue.Enqueue(msg);

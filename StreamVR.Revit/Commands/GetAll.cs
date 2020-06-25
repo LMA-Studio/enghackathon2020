@@ -38,7 +38,7 @@ namespace LMAStudio.StreamVR.Revit.Commands
 
         public Message Execute(Document doc, Message msg)
         {
-            string dataType = msg.Data["Type"].ToString();
+            string dataType = ((JObject)msg.Data)["Type"].ToString();
 
             _log($"Getting data type {dataType}");
 

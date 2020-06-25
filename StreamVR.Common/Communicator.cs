@@ -26,6 +26,7 @@ namespace LMAStudio.StreamVR.Common
 {
     public interface ICommunicator : IDisposable
     {
+        void Connect();
         void Publish(string channel, Message msg);
         Task<Message> Request(string channel, Message msg, int timeout = 1000);
         Message RequestSync(string channel, Message msg, int timeout = 1000);
@@ -36,7 +37,7 @@ namespace LMAStudio.StreamVR.Common
     {
         public string Type { get; set; }
         public string Reply { get; set; }
-        public JToken Data { get; set; }
+        public object Data { get; set; }
     }
 
     public class Communicator : ICommunicator
@@ -44,19 +45,23 @@ namespace LMAStudio.StreamVR.Common
         public const string TO_SERVER_CHANNEL = "TO_SERVER";
         public const string FROM_SERVER_CHANNEL = "FROM_SERVER";
 
+        private Options opts;
         private IConnection connection;
 
         private Action<string> logger;
 
         public Communicator(string url, Action<string> logger)
         {
-            Options opts = ConnectionFactory.GetDefaultOptions();
+            opts = ConnectionFactory.GetDefaultOptions();
             opts.Url = url;
-            opts.Timeout = 2000;
-
-            connection = new ConnectionFactory().CreateConnection(opts);
+            opts.Timeout = 1000;
 
             this.logger = logger;
+        }
+
+        public void Connect()
+        {
+            connection = new ConnectionFactory().CreateConnection(opts);
         }
 
         #region publish/requests
