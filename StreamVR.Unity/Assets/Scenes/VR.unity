@@ -679,6 +679,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PhysicsPointer
       objectReference: {fileID: 0}
+    - target: {fileID: 1770625591120433705, guid: c3b38bc1555ee994ba625e6824501d23,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1770625591120433708, guid: c3b38bc1555ee994ba625e6824501d23,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -1053,6 +1058,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5904117645865365884, guid: fb424e114f52be846b584ca96dcce6bb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5904117646284012186, guid: fb424e114f52be846b584ca96dcce6bb,
         type: 3}
@@ -1861,6 +1871,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: EventSystem
       objectReference: {fileID: 0}
+    - target: {fileID: 2371962762837883725, guid: 1a0c9920c69539b4cac9e716c274a0fc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2371962762837883760, guid: 1a0c9920c69539b4cac9e716c274a0fc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1921,6 +1936,16 @@ PrefabInstance:
       propertyPath: eventCamera
       value: 
       objectReference: {fileID: 1506353050}
+    - target: {fileID: 2371962762837883761, guid: 1a0c9920c69539b4cac9e716c274a0fc,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2371962762837883762, guid: 1a0c9920c69539b4cac9e716c274a0fc,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2371962762837883766, guid: 1a0c9920c69539b4cac9e716c274a0fc,
         type: 3}
       propertyPath: inputSource
@@ -1931,6 +1956,11 @@ PrefabInstance:
       propertyPath: radialMenu
       value: 
       objectReference: {fileID: 1818037771}
+    - target: {fileID: 2371962762837883766, guid: 1a0c9920c69539b4cac9e716c274a0fc,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a0c9920c69539b4cac9e716c274a0fc, type: 3}
 --- !u!1001 &7639680937694376263
@@ -1948,13 +1978,13 @@ PrefabInstance:
     - target: {fileID: 7639680938223759024, guid: 10d9e60a9d92bdb44b81e2b350e1bbbd,
         type: 3}
       propertyPath: m_SelectUsage
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7639680938223759025, guid: 10d9e60a9d92bdb44b81e2b350e1bbbd,
         type: 3}
       propertyPath: m_InteractionManager
       value: 
-      objectReference: {fileID: 1208507769}
+      objectReference: {fileID: 0}
     - target: {fileID: 7639680938223759025, guid: 10d9e60a9d92bdb44b81e2b350e1bbbd,
         type: 3}
       propertyPath: m_InteractionLayerMask.m_Bits

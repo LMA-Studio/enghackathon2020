@@ -100,6 +100,7 @@ bld/
 [Ll]og/
 [Ll]ogs/
 [Ll]ibrary/
+[Tt]emp/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
@@ -142,7 +143,6 @@ StyleCopReport.xml
 *_p.c
 *_h.h
 *.ilk
-*.meta
 *.obj
 *.iobj
 *.pch
