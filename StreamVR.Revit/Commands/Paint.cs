@@ -56,7 +56,7 @@ namespace LMAStudio.StreamVR.Revit.Commands
 
             return new Message
             {
-                Type = "CURRENT_VALUE",
+                Type = "VALUE",
                 Data = JsonConvert.SerializeObject(face)
             };
 
@@ -68,7 +68,7 @@ namespace LMAStudio.StreamVR.Revit.Commands
 
             using (Transaction tx = new Transaction(doc))
             {
-                tx.Start("Update Element");
+                tx.Start("Paint Element");
 
                 ElementId materialId = new ElementId(Int32.Parse(face.MaterialId));
                 ElementId parentId = new ElementId(Int32.Parse(face.ElementId));

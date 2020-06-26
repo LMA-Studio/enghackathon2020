@@ -30,12 +30,14 @@ namespace LMAStudio.StreamVR.Revit.Conversions
     {
         JObject ConvertToDTO(T1 source);
         void MapFromDTO(JObject source, T1 dest);
+        T1 CreateFromDTO(Document doc, JObject source);
     }
 
     public interface IGenericConverter
     {
         JObject ConvertToDTO(object source);
         void MapFromDTO(JObject source, object dest);
+        JObject CreateFromDTO<T1>(Document doc, JObject source, out T1 newElement);
     }
 
     public class GenericConverter: IGenericConverter
@@ -56,7 +58,7 @@ namespace LMAStudio.StreamVR.Revit.Conversions
 
                 object converter = Activator.CreateInstance(converterType);
 
-                response =(JObject)converterType.GetMethod("ConvertToDTO").Invoke(converter, new[] { source });
+                response = (JObject)converterType.GetMethod("ConvertToDTO").Invoke(converter, new[] { source });
             }
             catch(Exception e)
             {
@@ -90,10 +92,52 @@ namespace LMAStudio.StreamVR.Revit.Conversions
             converterType.GetMethod("MapFromDTO").Invoke(converter, new[] { source, dest });
         }
 
+        public JObject CreateFromDTO<T1>(Document doc, JObject source, out T1 newElement)
+        {
+            JObject response;
+            try
+            {
+                Type converterType = GetConverter(typeof(T1));
+
+                object converter = Activator.CreateInstance(converterType);
+
+                newElement = (T1)converterType.GetMethod("CreateFromDTO").Invoke(converter, new object[] { doc, source });
+                response = new JObject();
+                response["OK"] = 1;
+            }
+            catch (Exception e)
+            {
+                newElement = default(T1);
+
+                Exception ex = e.InnerException?.InnerException?.InnerException ?? e.InnerException?.InnerException ?? e.InnerException ?? e;
+                response = new JObject();
+                response["ERROR"] = 1;
+                response["Msg"] = e.Message.ToString();
+                response["Stack"] = e.StackTrace.ToString();
+                response["Inner"] = e.InnerException == null ? null : JObject.FromObject(new
+                {
+                    Msg = e.InnerException.Message.ToString(),
+                    Stack = e.InnerException.StackTrace.ToString(),
+                    Inner = e.InnerException.InnerException == null ? null : JObject.FromObject(new
+                    {
+                        Msg = e.InnerException.InnerException.Message.ToString(),
+                        Stack = e.InnerException.InnerException.StackTrace.ToString()
+                    })
+                });
+            }
+
+            response["Type"] = source.GetType().FullName;
+            return response;
+        }
+
         private Type GetConverter(object o)
         {
             Type matchType = o.GetType();
+            return GetConverter(matchType);
+        }
 
+        private Type GetConverter(Type matchType)
+        {
             return typeof(GenericConverter).Assembly.GetTypes().FirstOrDefault(
                 t => !t.IsAbstract
                     && !t.IsInterface

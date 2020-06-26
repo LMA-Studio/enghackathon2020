@@ -24,6 +24,7 @@ using System.Threading.Tasks;
 using Autodesk.Revit.DB;
 using Newtonsoft.Json.Linq;
 using LMAStudio.StreamVR.Common.Models;
+using Autodesk.Revit.DB.Structure;
 
 namespace LMAStudio.StreamVR.Revit.Conversions
 {
@@ -44,15 +45,15 @@ namespace LMAStudio.StreamVR.Revit.Conversions
                 FamilyId = fam.Id.ToString(),
                 BoundingBoxMin = new LMAStudio.StreamVR.Common.Models.XYZ
                 {
-                    X = bb.Min.X,
-                    Y = bb.Min.Y,
-                    Z = bb.Min.Z,
+                    X = bb?.Min.X ?? 0,
+                    Y = bb?.Min.Y ?? 0,
+                    Z = bb?.Min.Z ?? 0,
                 },
                 BoundingBoxMax = new LMAStudio.StreamVR.Common.Models.XYZ
                 {
-                    X = bb.Max.X,
-                    Y = bb.Max.Y,
-                    Z = bb.Max.Z,
+                    X = bb?.Max.X ?? 0,
+                    Y = bb?.Max.Y ?? 0,
+                    Z = bb?.Max.Z ?? 0,
                 },
                 IsFlipped = source.FacingFlipped,
                 Transform = new LMAStudio.StreamVR.Common.Models.Transform
@@ -92,7 +93,7 @@ namespace LMAStudio.StreamVR.Revit.Conversions
         {
             Autodesk.Revit.DB.Transform trans = dest.GetTransform();
 
-            LMAStudio.StreamVR.Common.Models.FamilyInstance source = sourceJSON.ToObject<LMAStudio.StreamVR.Common.Models.FamilyInstance>();
+            Common.Models.FamilyInstance source = sourceJSON.ToObject<Common.Models.FamilyInstance>();
 
             Autodesk.Revit.DB.XYZ newOrigin = new Autodesk.Revit.DB.XYZ(source.Transform.Origin.X, source.Transform.Origin.Y, source.Transform.Origin.Z);
 
@@ -108,6 +109,37 @@ namespace LMAStudio.StreamVR.Revit.Conversions
 
             dest.Location.Rotate(axis, rotation);
             dest.Location.Move(translation);
+        }
+
+        public Autodesk.Revit.DB.FamilyInstance CreateFromDTO(Document doc, JObject source)
+        {
+            Common.Models.FamilyInstance famI = source.ToObject<Common.Models.FamilyInstance>();
+
+            Autodesk.Revit.DB.XYZ newOrigin = new Autodesk.Revit.DB.XYZ(famI.Transform.Origin.X, famI.Transform.Origin.Y, famI.Transform.Origin.Z);
+
+            Autodesk.Revit.DB.Family fam = doc.GetElement(new ElementId(Int32.Parse(famI.FamilyId))) as Autodesk.Revit.DB.Family;
+            if (fam == null)
+            {
+                throw new Exception($"Failed to find family with id {famI.FamilyId}");
+            }
+
+            ElementId firstSymbolId = fam?.GetFamilySymbolIds()?.FirstOrDefault();
+            if (firstSymbolId == null)
+            {
+                throw new Exception($"No family symbols exist on family {famI.FamilyId}");
+            }
+
+            Autodesk.Revit.DB.FamilySymbol firstSymbol = doc.GetElement(firstSymbolId) as Autodesk.Revit.DB.FamilySymbol;
+            if (firstSymbol == null)
+            {
+                throw new Exception($"No family symbols exists with id {firstSymbolId}");
+            }
+
+            return doc.Create.NewFamilyInstance(
+                newOrigin,
+                firstSymbol,
+                StructuralType.NonStructural
+            );
         }
     }
 }

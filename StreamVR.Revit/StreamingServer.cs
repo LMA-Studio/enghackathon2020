@@ -45,6 +45,7 @@ namespace LMAStudio.StreamVR.Revit
         private IBaseCommand Command_Get;
         private IBaseCommand Command_Set;
         private IBaseCommand Command_Paint;
+        private IBaseCommand Command_Create;
 
         private static Queue<Message> msgQueue = new Queue<Message>();
         private Application application;
@@ -66,6 +67,7 @@ namespace LMAStudio.StreamVR.Revit
             this.Command_Get = new Get(Debug, this.Converter);
             this.Command_Set = new Set(Debug, this.Converter);
             this.Command_Paint = new Paint(Debug, this.Converter);
+            this.Command_Create = new Create(Debug, this.Converter);
 
             this.ListenForMessages(doc, "192.168.0.119:7002");
 
@@ -102,7 +104,6 @@ namespace LMAStudio.StreamVR.Revit
                             Debug("Exit command received");
                             _shutdown = true;
                         }
-
                     }
                     Task.Delay(200).Wait();
                 }
@@ -123,6 +124,8 @@ namespace LMAStudio.StreamVR.Revit
                         return this.Command_Set.Execute(doc, msg);
                     case "PAINT":
                         return this.Command_Paint.Execute(doc, msg);
+                    case "CREATE":
+                        return this.Command_Create.Execute(doc, msg);
                 }
             }
             catch(Exception e)

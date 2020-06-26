@@ -28,13 +28,53 @@ namespace LMAStudio.StreamVR.Unity.Scripts
 {
     public class FamilyController : MonoBehaviour
     {
+        public string CreatedFromFamilyId;
+
         private StreamVRController streamAPI;
 
         private FamilyInstance instanceData = null;
         private Family fam = null;
 
+        private void Start()
+        {
+            this.streamAPI = FindObjectOfType<StreamVRController>().GetComponent<StreamVRController>();
+
+            PlaceFamily();
+        }
+
+        private void PlaceFamily()
+        {
+            if (CreatedFromFamilyId != null)
+            {
+                if (FamilylLibrary.GetFamily(CreatedFromFamilyId) != null)
+                {
+                    FamilyInstance newFam = new FamilyInstance
+                    {
+                        FamilyId = CreatedFromFamilyId,
+                        Transform = new Common.Models.Transform
+                        {
+                            Origin = new XYZ
+                            {
+                                X = this.transform.position.x * Helpers.Constants.FT_PER_M,
+                                Y = this.transform.position.z * Helpers.Constants.FT_PER_M,
+                                Z = this.transform.position.y * Helpers.Constants.FT_PER_M
+                            }
+                        }
+                    };
+                    newFam = streamAPI.PlaceFamilyInstance(newFam);
+                    this.LoadInstance(newFam);
+                }
+                else
+                {
+                    Debug.LogError($"Can't create family from missing ID {CreatedFromFamilyId}");
+                }
+            }
+        }
+
         public void LoadInstance(FamilyInstance f)
         {
+            CreatedFromFamilyId = null;
+
             Matrix4x4 rotM = f.Transform.GetRotation();
             Matrix4x4 rotMI = rotM.inverse;
 
@@ -49,9 +89,10 @@ namespace LMAStudio.StreamVR.Unity.Scripts
             //    bbMax.y - bbMin.y,
             //    bbMax.z - bbMin.z
             //);
-            this.name = $"Family ({f.Id})";
 
-            this.streamAPI = FindObjectOfType<StreamVRController>().GetComponent<StreamVRController>();
+            // TODO: Create collider based on BB
+
+            this.name = $"Family ({f.Id})";
             this.instanceData = f;
             this.fam = FamilylLibrary.GetFamily(f.FamilyId);
 

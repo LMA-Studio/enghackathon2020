@@ -57,5 +57,10 @@ namespace LMAStudio.StreamVR.Revit.Conversions
         {
 
         }
+
+        public Autodesk.Revit.DB.Curve CreateFromDTO(Document doc, JObject source)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

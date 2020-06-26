@@ -33,25 +33,30 @@ namespace LMAStudio.StreamVR.Unity.Logic
         {
             foreach (var f in families)
             {
-                XYZ originXYZ = f.Transform.Origin;
-
-                Vector3 origin = new Vector3((float)originXYZ.X * Helpers.Constants.M_PER_FT, (float)originXYZ.Z * Helpers.Constants.M_PER_FT, (float)originXYZ.Y * Helpers.Constants.M_PER_FT);
-                Matrix4x4 rotM = f.Transform.GetRotation();
-
-                Quaternion rotQ = rotM.rotation;
-
-                GameObject newFamily = new GameObject();
-                newFamily.transform.position = origin;
-                newFamily.transform.rotation = rotQ;
-
-                if (f.IsFlipped)
-                {
-                    newFamily.transform.Rotate(newFamily.transform.up, 180);
-                }
-
-                newFamily.AddComponent<FamilyController>().LoadInstance(f);
-                newFamily.transform.parent = this.transform;
+                this.Place(f);
             }
+        }
+
+        public void Place(FamilyInstance f)
+        {
+            XYZ originXYZ = f.Transform.Origin;
+
+            Vector3 origin = new Vector3((float)originXYZ.X * Helpers.Constants.M_PER_FT, (float)originXYZ.Z * Helpers.Constants.M_PER_FT, (float)originXYZ.Y * Helpers.Constants.M_PER_FT);
+            Matrix4x4 rotM = f.Transform.GetRotation();
+
+            Quaternion rotQ = rotM.rotation;
+
+            GameObject newFamily = new GameObject();
+            newFamily.transform.position = origin;
+            newFamily.transform.rotation = rotQ;
+
+            if (f.IsFlipped)
+            {
+                newFamily.transform.Rotate(newFamily.transform.up, 180);
+            }
+
+            newFamily.AddComponent<FamilyController>().LoadInstance(f);
+            newFamily.transform.parent = this.transform;
         }
     }
 }

@@ -58,5 +58,10 @@ namespace LMAStudio.StreamVR.Revit.Conversions
             dest.Shininess = source.Shininess;
             dest.Smoothness = source.Smoothness;
         }
+
+        public Autodesk.Revit.DB.Material CreateFromDTO(Document doc, JObject source)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

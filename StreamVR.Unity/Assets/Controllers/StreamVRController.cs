@@ -182,6 +182,21 @@ namespace LMAStudio.StreamVR.Unity.Scripts
             }
         }
 
+        public FamilyInstance PlaceFamilyInstance(FamilyInstance fam)
+        {
+            Debug.Log($"Placing {fam.FamilyId}");
+            Display($"Placing {fam.FamilyId}");
+
+            Message response = comms.RequestSync(Communicator.TO_SERVER_CHANNEL, new Message
+            {
+                Type = "CREATE",
+                Data = JsonConvert.SerializeObject(fam)
+            }, 5000);
+            Debug.Log(JsonConvert.SerializeObject(response));
+
+            return JObject.Parse(response.Data).ToObject<FamilyInstance>();
+        }
+
         public void PaintFace(Face newFace)
         {
             Debug.Log($"Updating material {newFace.ElementId} {newFace.FaceIndex} {newFace.MaterialId}");

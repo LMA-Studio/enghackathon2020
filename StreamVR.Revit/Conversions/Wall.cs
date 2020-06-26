@@ -104,5 +104,10 @@ namespace LMAStudio.StreamVR.Revit.Conversions
                 )
             );
         }
+
+        public Autodesk.Revit.DB.Wall CreateFromDTO(Document doc, JObject source)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

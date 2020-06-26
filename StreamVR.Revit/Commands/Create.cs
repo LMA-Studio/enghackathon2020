@@ -25,12 +25,12 @@ using LMAStudio.StreamVR.Common;
 
 namespace LMAStudio.StreamVR.Revit.Commands
 {
-    public class Set: IBaseCommand
+    public class Create: IBaseCommand
     {
         private readonly Action<string> _log;
         private readonly IGenericConverter _converter;
 
-        public Set(Action<string> log, IGenericConverter converter)
+        public Create(Action<string> log, IGenericConverter converter)
         {
             _log = log;
             _converter = converter;
@@ -38,7 +38,7 @@ namespace LMAStudio.StreamVR.Revit.Commands
 
         public Message Execute(Document doc, Message msg)
         {
-            _log("EXECUTE SET");
+            _log("EXECUTE CREATE");
 
             JObject dto = JObject.Parse(msg.Data);
 
@@ -47,30 +47,41 @@ namespace LMAStudio.StreamVR.Revit.Commands
 
             _log("GETTING ELEMENT");
 
+            JObject response;
+
+            Autodesk.Revit.DB.FamilyInstance newFamily;
+
             using (Transaction tx = new Transaction(doc))
             {
-                tx.Start("Set Element");
+                tx.Start("Create Element");
 
-                Element dbValue = doc.GetElement(new ElementId(Int32.Parse(dto["Id"].ToString())));
-
-                _log($"GOT MATERIAL {dbValue?.Id.ToString()}");
-
-                _converter.MapFromDTO(dto, dbValue);
-
-                _log($"MAPPED MATERIAL");
-
-                dto = _converter.ConvertToDTO(dbValue);
+                response = _converter.CreateFromDTO<Autodesk.Revit.DB.FamilyInstance>(doc, dto, out newFamily);
+                _log($"Created element {newFamily?.ToString() ?? "NULL"}");
+                _log($" - Id {newFamily.Id?.ToString() ?? "NULL"}");
+                _log($" - Fam {newFamily.Symbol?.Family?.Id?.ToString() ?? "NULL"}");
+                _log($" - Origin {newFamily.GetTransform()?.Origin?.ToString() ?? "NULL"}");
 
                 tx.Commit();
             }
 
+            if (response["ERROR"] == null && newFamily == null)
+            {
+                response = new JObject();
+                response["ERROR"] = 1;
+                response["Msg"] = "New Family Is Null...";
+            }
+            if (response["ERROR"] == null)
+            {
+                response = _converter.ConvertToDTO(newFamily);
+            }
+
             _log("NEW VALUE");
-            _log(JsonConvert.SerializeObject(dto));
+            _log(JsonConvert.SerializeObject(response));
 
             return new Message
             {
                 Type = "VALUE",
-                Data = JsonConvert.SerializeObject(dto)
+                Data = JsonConvert.SerializeObject(response)
             };
         }
     }

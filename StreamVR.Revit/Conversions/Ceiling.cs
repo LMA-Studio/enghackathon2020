@@ -58,5 +58,10 @@ namespace LMAStudio.StreamVR.Revit.Conversions
         public void MapFromDTO(JObject sourceJSON, Autodesk.Revit.DB.Ceiling dest)
         {
         }
+
+        public Autodesk.Revit.DB.Ceiling CreateFromDTO(Document doc, JObject source)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
