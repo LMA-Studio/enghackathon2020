@@ -11,6 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StreamVR.Common", "StreamVR
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "StreamVR.Unity\Assembly-CSharp.csproj", "{1418FA86-491C-672F-3D2E-9FAF88DD051B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oculus.VR", "StreamVR.Unity\Oculus.VR.csproj", "{6EAFD708-3399-122C-C9C2-7F01B3F1D8B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oculus.Platform", "StreamVR.Unity\Oculus.Platform.csproj", "{FB378FA9-7392-CEE4-B521-BA748F74A176}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{1418FA86-491C-672F-3D2E-9FAF88DD051B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1418FA86-491C-672F-3D2E-9FAF88DD051B}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{1418FA86-491C-672F-3D2E-9FAF88DD051B}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{6EAFD708-3399-122C-C9C2-7F01B3F1D8B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EAFD708-3399-122C-C9C2-7F01B3F1D8B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EAFD708-3399-122C-C9C2-7F01B3F1D8B1}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EAFD708-3399-122C-C9C2-7F01B3F1D8B1}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{FB378FA9-7392-CEE4-B521-BA748F74A176}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB378FA9-7392-CEE4-B521-BA748F74A176}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB378FA9-7392-CEE4-B521-BA748F74A176}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB378FA9-7392-CEE4-B521-BA748F74A176}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
