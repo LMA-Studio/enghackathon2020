@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\BaseCommand.cs" />
+    <Compile Include="Commands\Paint.cs" />
     <Compile Include="Commands\Set.cs" />
     <Compile Include="Commands\GetAll.cs" />
     <Compile Include="Conversions\Converter.cs" />
@@ -82,7 +83,7 @@
   </ItemGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <PostBuildEvent>
-      MD ".\$(TargetDir)StreamVR\" 2> nul
+      MD ".\$(TargetDir)StreamVR\" 2&gt; nul
       MOVE /Y ".\$(TargetDir)*.dll" ".\$(TargetDir)StreamVR\"
       MOVE /Y ".\$(TargetDir)*.pdb" ".\$(TargetDir)StreamVR\"
       MOVE /Y ".\$(TargetDir)*.xml" ".\$(TargetDir)StreamVR\"

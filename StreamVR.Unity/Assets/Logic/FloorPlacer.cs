@@ -36,7 +36,7 @@ namespace LMAStudio.StreamVR.Unity.Logic
                 newWall.transform.parent = this.transform;
                 newWall.name = $"Floor ({f.Id})";
 
-                foreach (var fa in f.Faces)
+                foreach(var fa in f.Faces)
                 {
                     Helpers.MeshGenerator.GenerateFaceMesh(fa, newWall);
                 }

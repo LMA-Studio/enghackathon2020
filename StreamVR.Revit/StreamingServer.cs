@@ -43,6 +43,7 @@ namespace LMAStudio.StreamVR.Revit
         private IGenericConverter Converter;
         private IBaseCommand Command_GetAll;
         private IBaseCommand Command_Set;
+        private IBaseCommand Command_Paint;
 
         private static Queue<Message> msgQueue = new Queue<Message>();
         private Application application;
@@ -62,6 +63,7 @@ namespace LMAStudio.StreamVR.Revit
             this.Converter = new GenericConverter(Debug);
             this.Command_GetAll = new GetAll(Debug, this.Converter);
             this.Command_Set = new Set(Debug, this.Converter);
+            this.Command_Paint = new Paint(Debug, this.Converter);
 
             this.ListenForMessages(doc, "192.168.0.119:7002");
 
@@ -115,6 +117,8 @@ namespace LMAStudio.StreamVR.Revit
                         return this.Command_GetAll.Execute(doc, msg);
                     case "SET":
                         return this.Command_Set.Execute(doc, msg);
+                    case "PAINT":
+                        return this.Command_Paint.Execute(doc, msg);
                 }
             }
             catch(Exception e)
@@ -122,7 +126,7 @@ namespace LMAStudio.StreamVR.Revit
                 return new Message
                 {
                     Type = "ERROR",
-                    Data = JObject.FromObject(new
+                    Data = JsonConvert.SerializeObject(new
                     {
                         Msg = e.Message,
                         Stack = e.StackTrace

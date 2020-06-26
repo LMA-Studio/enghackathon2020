@@ -26,12 +26,10 @@ namespace LMAStudio.StreamVR.Common.Models
 {
     public class Face
     {
-        public string MaterialId { get; set; }
-        public XYZ Origin { get; set; }
-        public XYZ XVector { get; set; }
-        public XYZ YVector { get; set; }
-        public XYZ Normal { get; set; }
+        public string ElementId { get; set; }
+        public int FaceIndex { get; set; }
 
+        public string MaterialId { get; set; }
         public List<int> Indices{ get; set; }
         public List<XYZ> Vertices { get; set; }
     }

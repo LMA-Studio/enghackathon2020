@@ -24,7 +24,7 @@ namespace LMAStudio.StreamVR.Revit.Helpers
 {
     public class GeometryConversion
     {
-        public static List<LMAStudio.StreamVR.Common.Models.Face> ConvertToDTO(Autodesk.Revit.DB.Solid geometry, out string materialId)
+        public static List<LMAStudio.StreamVR.Common.Models.Face> ConvertToDTO(Autodesk.Revit.DB.Element parent, Autodesk.Revit.DB.Solid geometry)
         {
             List<LMAStudio.StreamVR.Common.Models.Face> wallFaces = new List<LMAStudio.StreamVR.Common.Models.Face>();
 
@@ -33,9 +33,7 @@ namespace LMAStudio.StreamVR.Revit.Helpers
                 (f, i) => i == 1
             ).FirstOrDefault() ?? faces.FirstOrDefault();
 
-            materialId = topFace?.MaterialElementId?.ToString();
-
-            wallFaces = faces.Select(f =>
+            wallFaces = faces.Select((f, index) =>
             {
                 Mesh m = f.Triangulate();
 
@@ -52,31 +50,33 @@ namespace LMAStudio.StreamVR.Revit.Helpers
 
                 return new LMAStudio.StreamVR.Common.Models.Face
                 {
+                    ElementId = parent.Id.ToString(),
+                    FaceIndex = index,
                     MaterialId = f.MaterialElementId?.ToString(),
-                    Origin = new LMAStudio.StreamVR.Common.Models.XYZ
-                    {
-                        X = f.Origin.X,
-                        Y = f.Origin.Y,
-                        Z = f.Origin.Z,
-                    },
-                    XVector = new LMAStudio.StreamVR.Common.Models.XYZ
-                    {
-                        X = f.XVector.X,
-                        Y = f.XVector.Y,
-                        Z = f.XVector.Z,
-                    },
-                    YVector = new LMAStudio.StreamVR.Common.Models.XYZ
-                    {
-                        X = f.YVector.X,
-                        Y = f.YVector.Y,
-                        Z = f.YVector.Z,
-                    },
-                    Normal = new LMAStudio.StreamVR.Common.Models.XYZ
-                    {
-                        X = f.FaceNormal.X,
-                        Y = f.FaceNormal.Y,
-                        Z = f.FaceNormal.Z,
-                    },
+                    //Origin = new LMAStudio.StreamVR.Common.Models.XYZ
+                    //{
+                    //    X = f.Origin.X,
+                    //    Y = f.Origin.Y,
+                    //    Z = f.Origin.Z,
+                    //},
+                    //XVector = new LMAStudio.StreamVR.Common.Models.XYZ
+                    //{
+                    //    X = f.XVector.X,
+                    //    Y = f.XVector.Y,
+                    //    Z = f.XVector.Z,
+                    //},
+                    //YVector = new LMAStudio.StreamVR.Common.Models.XYZ
+                    //{
+                    //    X = f.YVector.X,
+                    //    Y = f.YVector.Y,
+                    //    Z = f.YVector.Z,
+                    //},
+                    //Normal = new LMAStudio.StreamVR.Common.Models.XYZ
+                    //{
+                    //    X = f.FaceNormal.X,
+                    //    Y = f.FaceNormal.Y,
+                    //    Z = f.FaceNormal.Z,
+                    //},
                     Indices = indices,
                     Vertices = m.Vertices.Select(v => new LMAStudio.StreamVR.Common.Models.XYZ
                     {

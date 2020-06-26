@@ -43,14 +43,12 @@ namespace LMAStudio.StreamVR.Revit.Conversions
                 });
             }
 
-            string materialId;
-            List<LMAStudio.StreamVR.Common.Models.Face> wallFaces = Helpers.GeometryConversion.ConvertToDTO(solidGeometry, out materialId);
+            List<LMAStudio.StreamVR.Common.Models.Face> wallFaces = Helpers.GeometryConversion.ConvertToDTO(source, solidGeometry);
 
             LMAStudio.StreamVR.Common.Models.Ceiling dest = new LMAStudio.StreamVR.Common.Models.Ceiling
             {
                 Id = source.Id.ToString(),
                 Name = source.Name,
-                MaterialId = materialId,
                 Faces = wallFaces
             };
 

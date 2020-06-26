@@ -161,7 +161,18 @@ namespace LMAStudio.StreamVR.Unity.Scripts
             Message response = comms.RequestSync(Communicator.TO_SERVER_CHANNEL, new Message
             {
                 Type = "SET",
-                Data = JObject.FromObject(fam)
+                Data = JsonConvert.SerializeObject(fam)
+            }, 5000);
+            Debug.Log(JsonConvert.SerializeObject(response));
+        }
+
+        public void PaintFace(Face newFace)
+        {
+            Debug.Log($"Updating material {newFace.ElementId} {newFace.FaceIndex} {newFace.MaterialId}");
+            Message response = comms.RequestSync(Communicator.TO_SERVER_CHANNEL, new Message
+            {
+                Type = "PAINT",
+                Data = JsonConvert.SerializeObject(newFace)
             }, 5000);
             Debug.Log(JsonConvert.SerializeObject(response));
         }
@@ -175,7 +186,7 @@ namespace LMAStudio.StreamVR.Unity.Scripts
                 Message response = comms.RequestSync(Communicator.TO_SERVER_CHANNEL, new Message
                 {
                     Type = "GET_ALL",
-                    Data = JObject.FromObject(new
+                    Data = JsonConvert.SerializeObject(new
                     {
                         Type = type
                     })
@@ -190,7 +201,7 @@ namespace LMAStudio.StreamVR.Unity.Scripts
                     return new List<JObject>();
                 }
 
-                List<JObject> objects = JArray.FromObject(response.Data).Select(x => (JObject)x).ToList();
+                List<JObject> objects = JArray.Parse(response.Data).Select(x => (JObject)x).ToList();
 
                 List<JObject> errors = objects.Where(o => o["ERROR"] != null).ToList();
                 foreach (var e in errors)

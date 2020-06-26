@@ -37,7 +37,7 @@ namespace LMAStudio.StreamVR.Common
     {
         public string Type { get; set; }
         public string Reply { get; set; }
-        public object Data { get; set; }
+        public string Data { get; set; }
     }
 
     public class Communicator : ICommunicator

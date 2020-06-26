@@ -46,7 +46,6 @@ namespace LMAStudio.StreamVR.Revit.Conversions
 
             List<LMAStudio.StreamVR.Common.Models.Face> wallFaces = new List<LMAStudio.StreamVR.Common.Models.Face>();
 
-            string materialId = null;
             GeometryElement defaultGeometry = source.get_Geometry(new Options());
             if (defaultGeometry != null)
             {
@@ -54,7 +53,7 @@ namespace LMAStudio.StreamVR.Revit.Conversions
 
                 if (solidGeometry != null)
                 {
-                    wallFaces = GeometryConversion.ConvertToDTO(solidGeometry, out materialId);
+                    wallFaces = GeometryConversion.ConvertToDTO(source, solidGeometry);
                 }
             }
             
@@ -62,7 +61,6 @@ namespace LMAStudio.StreamVR.Revit.Conversions
             {
                 Id = source.Id.ToString(),
                 Name = source.Name,
-                MaterialId = materialId,
                 Depth = source.Width,
                 Orientation = new LMAStudio.StreamVR.Common.Models.XYZ
                 {

@@ -68,7 +68,7 @@ namespace LMAStudio.StreamVR.Revit
         {
             var assembly = Assembly.GetCallingAssembly();
             var assemblyDir = new FileInfo(assembly.Location).Directory.FullName;
-            PushButtonData intElevButtonData = new PushButtonData("Begin Streaming", "Begin Streaming", assembly.Location, "RevitGateway.StreamingServer");
+            PushButtonData intElevButtonData = new PushButtonData("Begin Streaming", "Begin Streaming", assembly.Location, "LMAStudio.StreamVR.Revit.StreamingServer");
             PushButton placeIntElevButton = intElevPanel.AddItem(intElevButtonData) as PushButton;
 
             placeIntElevButton.ToolTip = "Automatically places interior elevations into all bound rooms";

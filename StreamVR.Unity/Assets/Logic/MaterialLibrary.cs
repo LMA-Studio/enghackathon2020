@@ -37,11 +37,53 @@ namespace LMAStudio.StreamVR.Unity.Logic
 
         public static Material GetMaterial(string id)
         {
+            if (id == null)
+            {
+                return null;
+            }
             if (!lib.ContainsKey(id))
             {
                 return null;
             }
             return lib[id];
+        }
+
+        public static Material ReverseGetMaterial(string name)
+        {
+            if (name == null)
+            {
+                return null;
+            }
+            foreach(var m in lib)
+            {
+                if (m.Value.Name.Equals(name, System.StringComparison.OrdinalIgnoreCase))
+                {
+                    return m.Value;
+                }
+            }
+            return null;
+        }
+
+        public static UnityEngine.Material LookupMaterial(string id)
+        {
+            var mat = MaterialLibrary.GetMaterial(id);
+            if (mat == null)
+            {
+                return null;
+            }
+            UnityEngine.Debug.Log("MATERIAL : " + mat.Name);
+            return (UnityEngine.Material)UnityEngine.Resources.Load($"Materials/{mat.Name}/{mat.Name}");
+        }
+
+        public static UnityEngine.Material ReverseLookupMaterial(string name)
+        {
+            var mat = MaterialLibrary.ReverseGetMaterial(name);
+            if (mat == null)
+            {
+                return null;
+            }
+            UnityEngine.Debug.Log("MATERIAL : " + mat.Name);
+            return (UnityEngine.Material)UnityEngine.Resources.Load($"Materials/{mat.Name}/{mat.Name}");
         }
     }
 }

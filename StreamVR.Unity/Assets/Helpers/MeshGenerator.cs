@@ -22,6 +22,7 @@ using UnityEngine;
 
 using LMAStudio.StreamVR.Common.Models;
 using LMAStudio.StreamVR.Unity.Logic;
+using LMAStudio.StreamVR.Unity.Scripts;
 
 namespace LMAStudio.StreamVR.Unity.Helpers
 {
@@ -55,25 +56,23 @@ namespace LMAStudio.StreamVR.Unity.Helpers
             newFace.transform.parent = parent.transform;
             newFace.name = $"Floor Face";
             newFace.gameObject.AddComponent(typeof(MeshRenderer));
+            ((MaterialFaceController)newFace.gameObject.AddComponent(typeof(MaterialFaceController))).LoadInstance(f);
 
             MeshFilter filter = newFace.gameObject.AddComponent(typeof(MeshFilter)) as MeshFilter;
             filter.mesh = msh;
 
+            newFace.gameObject.AddComponent(typeof(MeshCollider));
+
             MeshRenderer mr = newFace.GetComponent<MeshRenderer>();
-            mr.material = (UnityEngine.Material)Resources.Load($"Materials/Default/mat");
+            mr.material = MaterialLibrary.LookupMaterial("Default");
 
             if (f.MaterialId != "-1")
             {
-                var mat = MaterialLibrary.GetMaterial(f.MaterialId);
+                var mat = MaterialLibrary.LookupMaterial(f.MaterialId);
                 if (mat != null)
                 {
-                    Debug.Log("MATERIAL : " + mat.Name);
-                    UnityEngine.Material matObject = (UnityEngine.Material)Resources.Load($"Materials/{mat.Name}/mat");
-                    if (matObject != null)
-                    {
-                        newFace.GetComponent<MeshRenderer>().material = matObject;
-                        newFace.name = $"_Floor Face";
-                    }
+                    mr.material = mat;
+                    newFace.name = $"_Floor Face";
                 }
             }
         }

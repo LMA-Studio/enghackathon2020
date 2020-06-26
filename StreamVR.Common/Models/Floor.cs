@@ -26,7 +26,6 @@ namespace LMAStudio.StreamVR.Common.Models
 {
     public class Floor: Element
     {
-        public string MaterialId { get; set; }
         public List<Face> Faces { get; set; }
     }
 }

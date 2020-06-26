@@ -40,7 +40,7 @@ namespace LMAStudio.StreamVR.Revit.Commands
         {
             _log("EXECUTE SET");
 
-            JObject dto = (JObject)msg.Data;
+            JObject dto = JObject.Parse(msg.Data);
 
             _log("GOT DTO");
             _log(JsonConvert.SerializeObject(dto));
@@ -70,7 +70,7 @@ namespace LMAStudio.StreamVR.Revit.Commands
             return new Message
             {
                 Type = "CURRENT_VALUE",
-                Data = JObject.FromObject(dto)
+                Data = JsonConvert.SerializeObject(dto)
             };
         }
     }

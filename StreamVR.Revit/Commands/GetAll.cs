@@ -22,6 +22,7 @@ using LMAStudio.StreamVR.Revit.Conversions;
 using System;
 using System.Linq;
 using LMAStudio.StreamVR.Common;
+using Newtonsoft.Json;
 
 namespace LMAStudio.StreamVR.Revit.Commands
 {
@@ -38,7 +39,8 @@ namespace LMAStudio.StreamVR.Revit.Commands
 
         public Message Execute(Document doc, Message msg)
         {
-            string dataType = ((JObject)msg.Data)["Type"].ToString();
+            JObject msgData = JObject.Parse(msg.Data);
+            string dataType = msgData["Type"].ToString();
 
             _log($"Getting data type {dataType}");
 
@@ -49,7 +51,7 @@ namespace LMAStudio.StreamVR.Revit.Commands
                 return new Message
                 {
                     Type = "ERROR",
-                    Data = JObject.FromObject(new
+                    Data = JsonConvert.SerializeObject(new
                     {
                         Msg = "Type does not exist"
                     })
@@ -78,7 +80,7 @@ namespace LMAStudio.StreamVR.Revit.Commands
             return new Message
             {
                 Type = "CURRENT_STATE",
-                Data = converted
+                Data = JsonConvert.SerializeObject(converted)
             };
         }
     }

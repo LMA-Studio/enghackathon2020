@@ -26,7 +26,6 @@ namespace LMAStudio.StreamVR.Common.Models
 {
     public class Wall: Element
     {
-        public string MaterialId { get; set; }
         public double Depth { get; set; }
         public XYZ Orientation { get; set; }
         public XYZ Endpoint0 { get; set; }
