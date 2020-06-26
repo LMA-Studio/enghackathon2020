@@ -28,6 +28,19 @@ namespace LMAStudio.StreamVR.Unity.Helpers
 {
     public class MeshGenerator
     {
+        public static void ResetFaceMeshes(GeometryElement geo, GameObject parent)
+        {
+            foreach(UnityEngine.Transform child in parent.transform)
+            {
+                GameObject.Destroy(child.gameObject);
+            }
+
+            foreach (Face f in geo.Faces)
+            {
+                GenerateFaceMesh(f, parent);
+            }
+        }
+
         public static void GenerateFaceMesh(Face f, GameObject parent)
         {
             Vector3[] vertices = f.Vertices.Select(
@@ -74,6 +87,11 @@ namespace LMAStudio.StreamVR.Unity.Helpers
                     mr.material = mat;
                     newFace.name = $"_Floor Face";
                 }
+            }
+
+            if (GeometryLibrary.GetObject(f.ElementId) == null)
+            {
+                GeometryLibrary.Add(f.ElementId, parent);
             }
         }
     }

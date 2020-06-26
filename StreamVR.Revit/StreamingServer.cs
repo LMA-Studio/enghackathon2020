@@ -42,6 +42,7 @@ namespace LMAStudio.StreamVR.Revit
     {
         private IGenericConverter Converter;
         private IBaseCommand Command_GetAll;
+        private IBaseCommand Command_Get;
         private IBaseCommand Command_Set;
         private IBaseCommand Command_Paint;
 
@@ -62,6 +63,7 @@ namespace LMAStudio.StreamVR.Revit
 
             this.Converter = new GenericConverter(Debug);
             this.Command_GetAll = new GetAll(Debug, this.Converter);
+            this.Command_Get = new Get(Debug, this.Converter);
             this.Command_Set = new Set(Debug, this.Converter);
             this.Command_Paint = new Paint(Debug, this.Converter);
 
@@ -115,6 +117,8 @@ namespace LMAStudio.StreamVR.Revit
                 {
                     case "GET_ALL":
                         return this.Command_GetAll.Execute(doc, msg);
+                    case "GET":
+                        return this.Command_Get.Execute(doc, msg);
                     case "SET":
                         return this.Command_Set.Execute(doc, msg);
                     case "PAINT":

@@ -46,7 +46,7 @@ namespace LMAStudio.StreamVR.Revit.Conversions
 
             List<LMAStudio.StreamVR.Common.Models.Face> wallFaces = new List<LMAStudio.StreamVR.Common.Models.Face>();
 
-            GeometryElement defaultGeometry = source.get_Geometry(new Options());
+            Autodesk.Revit.DB.GeometryElement defaultGeometry = source.get_Geometry(new Options());
             if (defaultGeometry != null)
             {
                 Solid solidGeometry = defaultGeometry.FirstOrDefault() as Solid;

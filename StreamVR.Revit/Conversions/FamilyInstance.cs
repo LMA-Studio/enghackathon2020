@@ -40,6 +40,7 @@ namespace LMAStudio.StreamVR.Revit.Conversions
             {
                 Id = source.Id.ToString(),
                 Name = source.Name,
+                HostId = source.Host?.Id.ToString(),
                 FamilyId = fam.Id.ToString(),
                 BoundingBoxMin = new LMAStudio.StreamVR.Common.Models.XYZ
                 {

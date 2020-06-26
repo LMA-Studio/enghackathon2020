@@ -31,7 +31,7 @@ namespace LMAStudio.StreamVR.Revit.Conversions
     {
         public JObject ConvertToDTO(Autodesk.Revit.DB.Ceiling source)
         {
-            GeometryElement defaultGeometry = source.get_Geometry(new Options());
+            Autodesk.Revit.DB.GeometryElement defaultGeometry = source.get_Geometry(new Options());
             Solid solidGeometry = defaultGeometry.FirstOrDefault() as Solid;
 
             if (solidGeometry == null)

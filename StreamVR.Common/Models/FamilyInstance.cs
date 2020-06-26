@@ -24,6 +24,7 @@ namespace LMAStudio.StreamVR.Common.Models
 {
     public class FamilyInstance: Element
     {
+        public string HostId { get; set; }
         public string FamilyId { get; set; }
 
         public XYZ BoundingBoxMin { get; set; }

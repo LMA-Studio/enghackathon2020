@@ -16,15 +16,30 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace LMAStudio.StreamVR.Common.Models
+using LMAStudio.StreamVR.Common.Models;
+using UnityEngine;
+
+namespace LMAStudio.StreamVR.Unity.Logic
 {
-    public class Ceiling: GeometryElement
+    public static class GeometryLibrary
     {
+        private static Dictionary<string, GameObject> lib = new Dictionary<string, GameObject>();
+
+        public static void Add(string elementId, GameObject go)
+        {
+            lib.Add(elementId, go);
+        }
+
+        public static GameObject GetObject(string id)
+        {
+            if (!lib.ContainsKey(id))
+            {
+                return null;
+            }
+            return lib[id];
+        }
     }
 }

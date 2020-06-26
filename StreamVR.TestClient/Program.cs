@@ -87,7 +87,7 @@ namespace LMAStudio.StreamVR.TestClient
             Message response = await comms.Request(Communicator.TO_SERVER_CHANNEL, new Message
             {
                 Type = "GET_ALL",
-                Data = JObject.FromObject(new
+                Data = JsonConvert.SerializeObject(new
                 {
                     Type = "Autodesk.Revit.DB.Material"
                 })
@@ -96,7 +96,7 @@ namespace LMAStudio.StreamVR.TestClient
             Console.WriteLine(JsonConvert.SerializeObject(response));
 
             // Parse response to DTO
-            List<Material> dataSet = JArray.FromObject(response.Data).
+            List<Material> dataSet = JArray.Parse(response.Data).
                                             Select(x => (JObject)x).
                                             Select(x => x.ToObject<Material>()).
                                             ToList();
@@ -121,7 +121,7 @@ namespace LMAStudio.StreamVR.TestClient
             Message response2 = await comms.Request(Communicator.TO_SERVER_CHANNEL, new Message
             {
                 Type = "SET",
-                Data = JObject.FromObject(mat)
+                Data = JsonConvert.SerializeObject(mat)
             });
             Console.WriteLine(JsonConvert.SerializeObject(response2));
         }

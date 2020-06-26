@@ -24,7 +24,8 @@ using System.Threading.Tasks;
 
 namespace LMAStudio.StreamVR.Common.Models
 {
-    public class Ceiling: GeometryElement
+    public class GeometryElement : Element
     {
+        public List<Face> Faces { get; set; }
     }
 }

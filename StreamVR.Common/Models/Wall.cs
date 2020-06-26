@@ -24,12 +24,11 @@ using System.Threading.Tasks;
 
 namespace LMAStudio.StreamVR.Common.Models
 {
-    public class Wall: Element
+    public class Wall: GeometryElement
     {
         public double Depth { get; set; }
         public XYZ Orientation { get; set; }
         public XYZ Endpoint0 { get; set; }
         public XYZ Endpoint1 { get; set; }
-        public List<Face> Faces { get; set; }
     }
 }

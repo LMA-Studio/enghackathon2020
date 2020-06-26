@@ -164,6 +164,22 @@ namespace LMAStudio.StreamVR.Unity.Scripts
                 Data = JsonConvert.SerializeObject(fam)
             }, 5000);
             Debug.Log(JsonConvert.SerializeObject(response));
+
+            if (fam.HostId != null)
+            {
+                Message getResponse = comms.RequestSync(Communicator.TO_SERVER_CHANNEL, new Message
+                {
+                    Type = "GET",
+                    Data = JsonConvert.SerializeObject(new
+                    {
+                        Id = fam.HostId
+                    })
+                }, 5000);
+
+                GeometryElement geo = JObject.Parse(getResponse.Data).ToObject<GeometryElement>();
+                GameObject obj = GeometryLibrary.GetObject(geo.Id);
+                Helpers.MeshGenerator.ResetFaceMeshes(geo, obj);
+            }
         }
 
         public void PaintFace(Face newFace)

@@ -26,7 +26,7 @@ public class UI_InputManager : MonoBehaviour
         InputDevice device = InputDevices.GetDeviceAtXRNode(inputSource);
         device.TryGetFeatureValue(CommonUsages.gripButton, out isGripped);
         radialMenu.SetActive(isGripped);
-        Debug.Log($"Gripping {isGripped}");
+        // Debug.Log($"Gripping {isGripped}");
     }
 
     private void OnDestroy()
