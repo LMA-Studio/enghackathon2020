@@ -53,7 +53,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\BaseCommand.cs" />
+    <Compile Include="Commands\Get.cs" />
     <Compile Include="Commands\Paint.cs" />
+    <Compile Include="Commands\Create.cs" />
     <Compile Include="Commands\Set.cs" />
     <Compile Include="Commands\GetAll.cs" />
     <Compile Include="Conversions\Converter.cs" />
