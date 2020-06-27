@@ -13,9 +13,9 @@ public class XROffsetGrabInteractable : XRGrabInteractable
     {
         if(!attachTransform)
         {
-        GameObject grab = new GameObject("Grab Pivot");
-        grab.transform.SetParent(transform, false);
-        attachTransform = grab.transform;
+            GameObject grab = new GameObject("Grab Pivot");
+            grab.transform.SetParent(transform, false);
+            attachTransform = grab.transform;
         }
 
         initialAttachLocalPos = attachTransform.localPosition;
