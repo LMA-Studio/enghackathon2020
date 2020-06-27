@@ -41,7 +41,7 @@ namespace LMAStudio.StreamVR.Unity.Helpers
             }
         }
 
-        public static void GenerateFaceMesh(Face f, GameObject parent)
+        public static GameObject GenerateFaceMesh(Face f, GameObject parent)
         {
             Vector3[] vertices = f.Vertices.Select(
                 v => new Vector3(
@@ -67,7 +67,7 @@ namespace LMAStudio.StreamVR.Unity.Helpers
             GameObject newFace = new GameObject();
             newFace.transform.position = Vector3.zero;
             newFace.transform.parent = parent.transform;
-            newFace.name = $"Floor Face";
+            newFace.name = $"Mesh Face";
             newFace.gameObject.AddComponent(typeof(MeshRenderer));
             ((MaterialFaceController)newFace.gameObject.AddComponent(typeof(MaterialFaceController))).LoadInstance(f);
 
@@ -77,15 +77,15 @@ namespace LMAStudio.StreamVR.Unity.Helpers
             newFace.gameObject.AddComponent(typeof(MeshCollider));
 
             MeshRenderer mr = newFace.GetComponent<MeshRenderer>();
-            mr.material = MaterialLibrary.LookupMaterial("Default");
+            mr.material = (UnityEngine.Material)UnityEngine.Resources.Load($"Materials/Default/Default");
 
-            if (f.MaterialId != "-1")
+            if (f.MaterialId != null && f.MaterialId != "-1")
             {
                 var mat = MaterialLibrary.LookupMaterial(f.MaterialId);
                 if (mat != null)
                 {
                     mr.material = mat;
-                    newFace.name = $"_Floor Face";
+                    newFace.name = $"_Mesh Face";
                 }
             }
 
@@ -93,6 +93,8 @@ namespace LMAStudio.StreamVR.Unity.Helpers
             {
                 GeometryLibrary.Add(f.ElementId, parent);
             }
+
+            return newFace;
         }
     }
 }

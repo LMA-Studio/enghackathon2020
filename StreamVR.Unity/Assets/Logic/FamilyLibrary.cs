@@ -43,5 +43,17 @@ namespace LMAStudio.StreamVR.Unity.Logic
             }
             return lib[id];
         }
+
+        public static Family ReverseGetFamily(string name)
+        {
+            foreach(var fam in lib)
+            {
+                if (fam.Value.Name == name)
+                {
+                    return fam.Value;
+                }
+            }
+            return null;
+        }
     }
 }

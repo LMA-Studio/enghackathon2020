@@ -37,37 +37,45 @@ namespace LMAStudio.StreamVR.Unity.Scripts
 
         private void Start()
         {
-            this.streamAPI = FindObjectOfType<StreamVRController>().GetComponent<StreamVRController>();
+            if (this.streamAPI == null)
+            {
+                this.streamAPI = FindObjectOfType<StreamVRController>().GetComponent<StreamVRController>();
+            }
 
-            PlaceFamily();
+            if (this.CreatedFromFamilyId != null)
+            {
+                PlaceFamily(CreatedFromFamilyId);
+            }
         }
 
-        private void PlaceFamily()
+        public void PlaceFamily(string familyId)
         {
-            if (CreatedFromFamilyId != null)
+            if (this.streamAPI == null)
             {
-                if (FamilylLibrary.GetFamily(CreatedFromFamilyId) != null)
+                this.streamAPI = FindObjectOfType<StreamVRController>().GetComponent<StreamVRController>();
+            }
+
+            if (FamilylLibrary.GetFamily(familyId) != null)
+            {
+                FamilyInstance newFam = new FamilyInstance
                 {
-                    FamilyInstance newFam = new FamilyInstance
+                    FamilyId = familyId,
+                    Transform = new Common.Models.Transform
                     {
-                        FamilyId = CreatedFromFamilyId,
-                        Transform = new Common.Models.Transform
+                        Origin = new XYZ
                         {
-                            Origin = new XYZ
-                            {
-                                X = this.transform.position.x * Helpers.Constants.FT_PER_M,
-                                Y = this.transform.position.z * Helpers.Constants.FT_PER_M,
-                                Z = this.transform.position.y * Helpers.Constants.FT_PER_M
-                            }
+                            X = this.transform.position.x * Helpers.Constants.FT_PER_M,
+                            Y = this.transform.position.z * Helpers.Constants.FT_PER_M,
+                            Z = this.transform.position.y * Helpers.Constants.FT_PER_M
                         }
-                    };
-                    newFam = streamAPI.PlaceFamilyInstance(newFam);
-                    this.LoadInstance(newFam);
-                }
-                else
-                {
-                    Debug.LogError($"Can't create family from missing ID {CreatedFromFamilyId}");
-                }
+                    }
+                };
+                newFam = streamAPI.PlaceFamilyInstance(newFam);
+                this.LoadInstance(newFam);
+            }
+            else
+            {
+                Debug.LogError($"Can't create family from missing ID {familyId}");
             }
         }
 
@@ -179,6 +187,11 @@ namespace LMAStudio.StreamVR.Unity.Scripts
 
         private void SaveSelf()
         {
+            if (this.streamAPI == null)
+            {
+                this.streamAPI = FindObjectOfType<StreamVRController>().GetComponent<StreamVRController>();
+            }
+
             this.instanceData.Transform.Origin = new XYZ
             {
                 X = this.transform.position.x * Helpers.Constants.FT_PER_M,

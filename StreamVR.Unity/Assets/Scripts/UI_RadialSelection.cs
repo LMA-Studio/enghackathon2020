@@ -38,6 +38,7 @@ public class UI_RadialSelection : MonoBehaviour
                     Debug.Log($"Clicked {this.transform.parent.gameObject.name}");
                     OnClick.Invoke();
                     triggered = true;
+                    RaycastExit();
                 }
             }
             else if (triggered)

@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class UI_MenuActions_Place_Furniture : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public GameObject physicPointer;
+    public GameObject cataloguePointer;
+    public GameObject furnatureMenu;
 
     public void Execute()
     {
-        
+        physicPointer.SetActive(false);
+        cataloguePointer.SetActive(true);
+        furnatureMenu.SetActive(true);
     }
 }

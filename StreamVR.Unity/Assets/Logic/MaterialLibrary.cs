@@ -71,7 +71,6 @@ namespace LMAStudio.StreamVR.Unity.Logic
             {
                 return null;
             }
-            UnityEngine.Debug.Log("MATERIAL : " + mat.Name);
             return (UnityEngine.Material)UnityEngine.Resources.Load($"Materials/{mat.Name}/{mat.Name}");
         }
 
@@ -82,7 +81,6 @@ namespace LMAStudio.StreamVR.Unity.Logic
             {
                 return null;
             }
-            UnityEngine.Debug.Log("MATERIAL : " + mat.Name);
             return (UnityEngine.Material)UnityEngine.Resources.Load($"Materials/{mat.Name}/{mat.Name}");
         }
     }

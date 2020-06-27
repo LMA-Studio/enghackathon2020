@@ -41,7 +41,7 @@ public class ShootingPaintScript : MonoBehaviour
 
         if (gripped)
         {
-            var pointer = this.transform.parent.gameObject.GetComponentInChildren<PhysicsPointer>(true)?.gameObject;
+            var pointer = this.transform.parent.gameObject.GetComponentInChildren<LMAStudio.StreamVR.Unity.Scripts.PhysicsPointer>(true)?.gameObject;
             if (pointer != null)
             {
                 this.gameObject.SetActive(false);

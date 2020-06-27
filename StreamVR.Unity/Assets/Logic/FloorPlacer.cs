@@ -38,7 +38,8 @@ namespace LMAStudio.StreamVR.Unity.Logic
 
                 foreach(var fa in f.Faces)
                 {
-                    Helpers.MeshGenerator.GenerateFaceMesh(fa, newWall);
+                    GameObject face = Helpers.MeshGenerator.GenerateFaceMesh(fa, newWall);
+                    face.layer = Helpers.Constants.LAYER_FLOOR;
                 }
             }
         }

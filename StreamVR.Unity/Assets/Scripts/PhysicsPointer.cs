@@ -4,70 +4,73 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class PhysicsPointer : MonoBehaviour
+namespace LMAStudio.StreamVR.Unity.Scripts
 {
-    public float defaultLength = 3.0f;
-
-    private LineRenderer lineRenderer = null;
-
-    private GameObject colliderHit = null;
-
-    private void Awake()
+    public class PhysicsPointer : MonoBehaviour
     {
-        lineRenderer = GetComponent<LineRenderer>();
-    }
+        public float defaultLength = 3.0f;
 
-    private void Update()
-    {
-        UpdateLength();
-    }
+        private LineRenderer lineRenderer = null;
 
-    private void UpdateLength()
-    {
-        lineRenderer.SetPosition(0, transform.position);
-        lineRenderer.SetPosition(1, CalculatedEnd());
-    }
+        private GameObject colliderHit = null;
 
-    private Vector3 CalculatedEnd()
-    {
-        RaycastHit hit = CreateForwardRaycast();
-        Vector3 endPosition = DefaultEnd(defaultLength);
-
-        if(hit.collider)
+        private void Awake()
         {
-            endPosition = hit.point;
-            Debug.Log($"HIT OBJECT {hit.transform.parent.gameObject.name}");
+            lineRenderer = GetComponent<LineRenderer>();
+        }
 
-            if (colliderHit != null)
+        private void Update()
+        {
+            UpdateLength();
+        }
+
+        private void UpdateLength()
+        {
+            lineRenderer.SetPosition(0, transform.position);
+            lineRenderer.SetPosition(1, CalculatedEnd());
+        }
+
+        private Vector3 CalculatedEnd()
+        {
+            RaycastHit hit = CreateForwardRaycast();
+            Vector3 endPosition = DefaultEnd(defaultLength);
+
+            if (hit.collider)
+            {
+                endPosition = hit.point;
+                Debug.Log($"HIT OBJECT {hit.transform.parent.gameObject.name}");
+
+                if (colliderHit != null)
+                {
+                    colliderHit.GetComponent<UI_RadialSelection>().RaycastExit();
+                }
+
+                colliderHit = hit.transform.gameObject;
+                colliderHit.GetComponent<UI_RadialSelection>().RaycastEnter();
+            }
+            else if (colliderHit != null)
             {
                 colliderHit.GetComponent<UI_RadialSelection>().RaycastExit();
+                colliderHit = null;
             }
 
-            colliderHit = hit.transform.gameObject;
-            colliderHit.GetComponent<UI_RadialSelection>().RaycastEnter();
+            return endPosition;
         }
-        else if (colliderHit != null)
+
+        private RaycastHit CreateForwardRaycast()
         {
-            colliderHit.GetComponent<UI_RadialSelection>().RaycastExit();
-            colliderHit = null;
+            RaycastHit hit;
+
+            Ray ray = new Ray(transform.position, transform.forward);
+
+            Physics.Raycast(ray, out hit, defaultLength, 1 << 5);
+
+            return hit;
         }
 
-        return endPosition;
-    }
-
-    private RaycastHit CreateForwardRaycast()
-    {
-        RaycastHit hit;
-
-        Ray ray = new Ray(transform.position, transform.forward);
-
-        Physics.Raycast(ray, out hit, defaultLength, 1 << 5);
-
-        return hit;
-    }
-
-    private Vector3 DefaultEnd(float length)
-    {
-        return transform.position + (transform.forward * length);
+        private Vector3 DefaultEnd(float length)
+        {
+            return transform.position + (transform.forward * length);
+        }
     }
 }

@@ -15,7 +15,7 @@ public class UI_MenuAction_Paint : MonoBehaviour
 
         GameObject righthand = GameObject.Find("Right Hand");
 
-        var pointer = righthand.GetComponentInChildren<PhysicsPointer>(true)?.gameObject;
+        var pointer = righthand.GetComponentInChildren<LMAStudio.StreamVR.Unity.Scripts.PhysicsPointer>(true)?.gameObject;
         var paintGun = righthand.GetComponentInChildren<ShootingPaintScript>(true)?.gameObject;
 
         pointer.SetActive(false);
