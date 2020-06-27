@@ -113,6 +113,35 @@ namespace LMAStudio.StreamVR.Unity.Scripts
                 modelInstance.transform.parent = this.transform;
                 modelInstance.transform.localPosition = Vector3.zero;
                 modelInstance.transform.localRotation = initialRotation;
+                
+                var childXR = modelInstance.GetComponent<UnityEngine.XR.Interaction.Toolkit.XRGrabInteractable>();
+                if (childXR != null)
+                {
+                    GameObject.Destroy(childXR);
+                }
+
+                BoxCollider childBox = modelInstance.GetComponent<BoxCollider>();
+                if (childBox != null)
+                {
+                    BoxCollider parentBox = this.gameObject.AddComponent<BoxCollider>();
+                    parentBox.size = childBox.size;
+                    parentBox.center = childBox.center;
+
+                    modelInstance.layer = 0;
+                    this.gameObject.layer = Helpers.Constants.LAYER_FAMILY;
+                }
+
+                GameObject.Destroy(childBox);
+
+                Rigidbody childRB = modelInstance.GetComponent<Rigidbody>();
+                if (childRB != null)
+                {
+                    Rigidbody parentRB = this.gameObject.AddComponent<Rigidbody>();
+                    parentRB.useGravity = false;
+                    parentRB.constraints = RigidbodyConstraints.FreezeAll;
+                }
+
+                GameObject.Destroy(childRB);
 
                 this.name = $"_ Family ({f.Id})";
             }
@@ -121,69 +150,85 @@ namespace LMAStudio.StreamVR.Unity.Scripts
         private Vector3? currentPostion = null;
         private Quaternion? currentRotation = null;
 
-        private bool hasUpdate = false;
-        private DateTime firstUpdate = DateTime.UtcNow;
-        private DateTime lastUpdate = DateTime.UtcNow;
-        private double DebounceTime = 500;
+        //private bool hasUpdate = false;
+        //private DateTime firstUpdate = DateTime.UtcNow;
+        //private DateTime lastUpdate = DateTime.UtcNow;
+        //private double DebounceTime = 500;
 
         void Update()
         {
+            if (currentPostion == null || currentRotation == null)
+            {
+                currentPostion = this.transform.position;
+                currentRotation = this.transform.rotation;
+            }
+        }
+
+        public void UpdatePosition()
+        {
+            Debug.Log("Updating position");
             if (this.instanceData != null)
             {
-                RegisterUpdate();
-
-                if (hasUpdate)
-                {
-                    if ((lastUpdate - firstUpdate).TotalMilliseconds > DebounceTime)
-                    {
-                        SaveSelf();
-                    }
-                }
-
-                if (hasUpdate)
-                {
-                    if ((DateTime.UtcNow - lastUpdate).TotalMilliseconds > DebounceTime)
-                    {
-                        SaveSelf();
-                    }
-                }
-            }
-        }
-
-        private void RegisterUpdate()
-        {
-            if (currentPostion != this.transform.position)
-            {
-                if (currentPostion != null)
-                {
-                    if (!hasUpdate)
-                    {
-                        firstUpdate = DateTime.UtcNow;
-                    }
-                    hasUpdate = true;
-                    lastUpdate = DateTime.UtcNow;
-                }
+                Debug.Log("Registering Update");
 
                 currentPostion = this.transform.position;
                 currentRotation = this.transform.rotation;
-            }
 
-            if (currentRotation != this.transform.rotation)
-            {
-                if (currentRotation != null)
-                {
-                    if (!hasUpdate)
-                    {
-                        firstUpdate = DateTime.UtcNow;
-                    }
-                    hasUpdate = true;
-                    lastUpdate = DateTime.UtcNow;
-                }
+                SaveSelf();
+                Debug.Log("SAVED");
 
-                currentPostion = this.transform.position;
-                currentRotation = this.transform.rotation;
+                //if (hasUpdate)
+                //{
+                //    if ((lastUpdate - firstUpdate).TotalMilliseconds > DebounceTime)
+                //    {
+                //        SaveSelf();
+                //    }
+                //}
+
+                //if (hasUpdate)
+                //{
+                //    if ((DateTime.UtcNow - lastUpdate).TotalMilliseconds > DebounceTime)
+                //    {
+                //        SaveSelf();
+                //    }
+                //}
             }
         }
+
+        //private void RegisterUpdate()
+        //{
+        //    if (currentPostion != this.transform.position)
+        //    {
+        //        if (currentPostion != null)
+        //        {
+        //            if (!hasUpdate)
+        //            {
+        //                firstUpdate = DateTime.UtcNow;
+        //            }
+        //            hasUpdate = true;
+        //            lastUpdate = DateTime.UtcNow;
+        //        }
+
+        //        currentPostion = this.transform.position;
+        //        currentRotation = this.transform.rotation;
+        //    }
+
+        //    if (currentRotation != this.transform.rotation)
+        //    {
+        //        if (currentRotation != null)
+        //        {
+        //            if (!hasUpdate)
+        //            {
+        //                firstUpdate = DateTime.UtcNow;
+        //            }
+        //            hasUpdate = true;
+        //            lastUpdate = DateTime.UtcNow;
+        //        }
+
+        //        currentPostion = this.transform.position;
+        //        currentRotation = this.transform.rotation;
+        //    }
+        //}
 
         private void SaveSelf()
         {
@@ -203,7 +248,7 @@ namespace LMAStudio.StreamVR.Unity.Scripts
             this.instanceData.Transform.SetRotation(rotationMatrix, this.instanceData.IsFlipped);
 
             this.streamAPI.SaveFamilyInstance(this.instanceData);
-            hasUpdate = false;
+            // hasUpdate = false;
         }
     }
 }

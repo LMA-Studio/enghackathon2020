@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class UI_MenuActions_Move : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public GameObject physicsPointer;
+    public GameObject itemMover;
 
     public void Exectue()
     {
-        
+        physicsPointer.SetActive(false);
+        itemMover.SetActive(true);
     }
 }

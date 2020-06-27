@@ -46,8 +46,10 @@ namespace LMAStudio.StreamVR.Unity.Scripts
                 this.GetComponent<LineRenderer>().enabled = true;
 
                 Vector3 collisionPoint = CalculatedEnd();
+
                 lineRenderer.SetPosition(0, transform.position);
                 lineRenderer.SetPosition(1, collisionPoint);
+
                 familyToCreate.transform.position = collisionPoint;
                 familyToCreate.transform.rotation = initialRotation;
 

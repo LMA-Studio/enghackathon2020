@@ -23,13 +23,13 @@ public class LocomotionController_1 : MonoBehaviour
         int index = 0;
         bool validTarget = false;
 
-        if(leftTeleportRay)
+        if(leftTeleportRay && leftInteractorRay != null)
         {
             bool isLeftInteractorRayHovering = leftInteractorRay.TryGetHitInfo(ref pos, ref norm, ref index, ref validTarget);
             leftTeleportRay.gameObject.SetActive(EnableLeftTeleport && CheckIfActivated(leftTeleportRay) && !isLeftInteractorRayHovering);
         }
 
-        if(rightTeleportRay)
+        if(rightTeleportRay && rightInteractoRay != null)
         {
             bool isRightInteractorRayHovering = rightInteractoRay.TryGetHitInfo(ref pos, ref norm, ref index, ref validTarget);
             rightTeleportRay.gameObject.SetActive(EnableRightTeleport && CheckIfActivated(rightTeleportRay) && !isRightInteractorRayHovering);

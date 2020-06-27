@@ -10,6 +10,7 @@ public class UI_MenuActions_Place_Furniture : MonoBehaviour
 
     public void Execute()
     {
+        Debug.Log("CLICKED PLACE FURNATURE");
         physicPointer.SetActive(false);
         cataloguePointer.SetActive(true);
         furnatureMenu.SetActive(true);

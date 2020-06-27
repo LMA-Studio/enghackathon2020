@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class UI_MenuActions_Place_Lighting : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public GameObject physicPointer;
+    public GameObject cataloguePointer;
+    public GameObject lightingMenu;
 
     public void Execute()
     {
-        
+        Debug.Log("CLICKED PLACE LIGHTING");
+        physicPointer.SetActive(false);
+        cataloguePointer.SetActive(true);
+        lightingMenu.SetActive(true);
     }
 }

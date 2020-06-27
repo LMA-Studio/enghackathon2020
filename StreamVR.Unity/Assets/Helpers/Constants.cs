@@ -23,6 +23,7 @@ namespace LMAStudio.StreamVR.Unity.Helpers
         public const float FT_PER_M = 3.2808f;
         public const float M_PER_FT = 1 / 3.2808f;
 
+        public const int LAYER_FAMILY = 8;
         public const int LAYER_FLOOR = 11;
     }
 }

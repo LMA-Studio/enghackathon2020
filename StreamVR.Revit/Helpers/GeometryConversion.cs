@@ -28,8 +28,9 @@ namespace LMAStudio.StreamVR.Revit.Helpers
         {
             List<LMAStudio.StreamVR.Common.Models.Face> wallFaces = new List<LMAStudio.StreamVR.Common.Models.Face>();
 
-            IEnumerable<PlanarFace> faces = geometry.Faces.Cast<PlanarFace>();
-            PlanarFace topFace = faces.Where(
+            IEnumerable<Face> faces = geometry.Faces.Cast<Face>();
+
+            Face topFace = faces.Where(
                 (f, i) => i == 1
             ).FirstOrDefault() ?? faces.FirstOrDefault();
 
