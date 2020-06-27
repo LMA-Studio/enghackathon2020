@@ -55,6 +55,8 @@ namespace LMAStudio.StreamVR.Unity.Scripts
                 this.streamAPI = FindObjectOfType<StreamVRController>().GetComponent<StreamVRController>();
             }
 
+            this.transform.parent = this.streamAPI.gameObject.transform;
+
             if (FamilylLibrary.GetFamily(familyId) != null)
             {
                 FamilyInstance newFam = new FamilyInstance
@@ -107,41 +109,62 @@ namespace LMAStudio.StreamVR.Unity.Scripts
             GameObject model = (GameObject)Resources.Load($"Families/{this.fam.Name}/model");
             if (model != null)
             {
+                Debug.Log("PLACING FAMILY");
+
                 var modelInstance = Instantiate(model);
                 var initialRotation = modelInstance.transform.localRotation;
 
                 modelInstance.transform.parent = this.transform;
                 modelInstance.transform.localPosition = Vector3.zero;
                 modelInstance.transform.localRotation = initialRotation;
-                
+
+                Debug.Log("Parent " + this.gameObject.name);
+                Debug.Log("Child " + modelInstance.gameObject.name);
+
                 var childXR = modelInstance.GetComponent<UnityEngine.XR.Interaction.Toolkit.XRGrabInteractable>();
                 if (childXR != null)
                 {
+                    Debug.Log("HAS XR");
                     GameObject.Destroy(childXR);
                 }
+
 
                 BoxCollider childBox = modelInstance.GetComponent<BoxCollider>();
                 if (childBox != null)
                 {
+                    Debug.Log("HAS BOX");
                     BoxCollider parentBox = this.gameObject.AddComponent<BoxCollider>();
                     parentBox.size = childBox.size;
                     parentBox.center = childBox.center;
 
                     modelInstance.layer = 0;
                     this.gameObject.layer = Helpers.Constants.LAYER_FAMILY;
-                }
 
-                GameObject.Destroy(childBox);
+                    GameObject.Destroy(childBox);
+                }
 
                 Rigidbody childRB = modelInstance.GetComponent<Rigidbody>();
                 if (childRB != null)
                 {
+                    Debug.Log("HAS RB");
                     Rigidbody parentRB = this.gameObject.AddComponent<Rigidbody>();
                     parentRB.useGravity = false;
                     parentRB.constraints = RigidbodyConstraints.FreezeAll;
+
+                    GameObject.Destroy(childRB);
                 }
 
-                GameObject.Destroy(childRB);
+                int count = 0;
+                foreach (UnityEngine.Transform child in transform)
+                {
+                    count++;
+                    if (child.gameObject.GetComponent<Rigidbody>() != null)
+                    {
+                        Debug.Log("HAS RB " + count);
+                    }
+
+                }
+                Debug.Log("Children " + count);
 
                 this.name = $"_ Family ({f.Id})";
             }
